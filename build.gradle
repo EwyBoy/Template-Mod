@@ -14,9 +14,9 @@ plugins {
     id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'maven-publish'
+apply plugin: 'net.minecraftforge.gradle'
 
 version = "${MC_VERSION}-${VERSION}"
 group = "com.ewyboy.${MODID}"
@@ -36,7 +36,7 @@ minecraft {
             workingDirectory project.file('run')
             property 'fml.earlyprogresswindow', 'false'
             mods {
-                oretweaker {
+                template {
                     source sourceSets.main
                 }
             }
@@ -45,7 +45,7 @@ minecraft {
         server {
             workingDirectory project.file('run')
             mods {
-                oretweaker {
+                template {
                     source sourceSets.main
                 }
             }
@@ -54,7 +54,7 @@ minecraft {
         data {
             workingDirectory project.file('run')
             mods {
-                oretweaker {
+                template {
                     source sourceSets.main
                 }
             }
@@ -93,6 +93,8 @@ jar {
     }
 }
 
+jar.finalizedBy('reobfJar')
+
 curseforge {
     if (project.hasProperty('CF_API_KEY')){
         apiKey = project.getProperty('CF_API_KEY')
@@ -111,5 +113,3 @@ curseforge {
         }
     }
 }
-
-jar.finalizedBy('reobfJar')
